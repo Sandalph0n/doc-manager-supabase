@@ -3,7 +3,7 @@
 // ─── Imports ─────────────────────────────────────────────────────────────────
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutGrid, Clock, Search, Users, Building2, Settings } from 'lucide-react'
+import { LayoutGrid, Clock, Search, Users, Building2, Settings, Home } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useLang } from '@/lib/i18n/context'
 
@@ -36,7 +36,8 @@ export function AppSidebar() {
   const { t } = useLang()
 
   const TOP_NAV = [
-    { href: '/', icon: LayoutGrid, label: t.nav.explorer },
+    { href: '/', icon: Home, label: t.nav.home },
+    { href: '/shipments', icon: LayoutGrid, label: t.nav.explorer },
     { href: '/recent', icon: Clock, label: t.nav.recent },
     { href: '/customers', icon: Users, label: t.nav.customers },
     { href: '/search', icon: Search, label: t.nav.search },
@@ -68,7 +69,7 @@ export function AppSidebar() {
       {/* Bottom nav */}
       <div className='flex flex-col gap-0.5'>
         {BOTTOM_NAV.map(item => (
-          <NavItem key={item.href} {...item} active={pathname.startsWith(item.href)} />
+          <NavItem key={item.href} {...item} active={item.href === '/' ? pathname === '/' : pathname.startsWith(item.href)} />
         ))}
 
       </div>

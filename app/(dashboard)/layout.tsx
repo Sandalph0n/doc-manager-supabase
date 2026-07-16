@@ -18,7 +18,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <ResizablePanelGroup orientation='horizontal' className='flex-1 overflow-hidden'>
 
         {/* Sidebar */}
-        <ResizablePanel defaultSize='16%' minSize='10%' maxSize="50%" collapsedSize={0} collapsible className='bg-muted/40 border-r'>
+        <ResizablePanel defaultSize='16%' minSize='12rem' maxSize="50%" collapsedSize={0} collapsible className='bg-muted/40 border-r'>
           <AppSidebar />
         </ResizablePanel>
 

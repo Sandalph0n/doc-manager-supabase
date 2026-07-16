@@ -259,6 +259,17 @@ Chứng từ gắn với một lô hàng — có thể là CT/INV/PL tự độn
 | status | text | draft / final |
 | uploaded_at | timestamptz | |
 
+### Mở rộng tương lai: Custom properties cho shipment
+
+Đã cân nhắc thêm custom key-value properties vào mỗi shipment (không giới hạn số lượng). Hai hướng đã xem xét:
+
+- **Bảng riêng (EAV pattern)** — `shipment_property(shipment_id, key, value)`: query được nhưng cần JOIN, phức tạp hơn khi dùng.
+- **`jsonb` column** — thêm `custom_properties jsonb DEFAULT '{}'` vào bảng `shipment`: không cần JOIN, PostgreSQL hỗ trợ native (index GIN, query `->>`), đủ dùng cho mục đích display/reference.
+
+**Kết luận:** nếu mở rộng thì dùng `jsonb`. Chỉ chuyển sang bảng riêng nếu cần search/filter theo property thường xuyên hoặc cần lưu lịch sử thay đổi từng property.
+
+---
+
 ### Supabase Storage
 
 - Bucket: `documents` (private)

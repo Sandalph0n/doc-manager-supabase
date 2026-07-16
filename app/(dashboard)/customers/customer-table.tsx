@@ -182,8 +182,8 @@ export default function CustomerTable({
         </div>
 
 
-        <div className=' flex-1'>
-          <table className='min-w-max text-sm border-collapse '>
+        <div className='flex-1'>
+          <table className='min-w-max text-sm border-collapse w-full'>
             <thead>
               <tr className='border-b'>
                 {[c.companyName, c.taxCode, c.contactPerson, c.position , c.phone, c.email, c.address, c.createdAt].map(h => (

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useTransition, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Temporal } from '@js-temporal/polyfill'
 import { Plus, ChevronDown, Search, Check, Loader2, UserPlus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -12,11 +13,12 @@ import {
 } from '@/components/ui/popover'
 import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
-import { getNextDocNumber } from '@/app/(dashboard)/shipments/actions'
+import { createShipment, getNextDocNumber } from '@/app/(dashboard)/shipments/actions'
 import { useLang } from '@/lib/i18n/context'
 import { CustomerDialog } from '@/components/customer-dialog'
 import type { Customer } from '@/schemas/customer'
 import { toast } from 'sonner'
+
 
 
 type CustomerOption = { id: string; company_name: string }
@@ -35,8 +37,6 @@ function CustomerCombobox({
   const [results, setResults] = useState<CustomerOption[]>([])
   const [isPending, startTransition] = useTransition()
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-
 
   function fetchCustomers(q: string) {
     startTransition(async () => {
@@ -123,6 +123,7 @@ function CustomerCombobox({
 export default function NewShipmentSheet() {
   const { t } = useLang()
   const s = t.shipments
+  const router = useRouter()
 
   const [open, setOpen]                   = useState(false)
   const [mode, setMode]                   = useState<'default' | 'custom'>('default')
@@ -152,11 +153,24 @@ export default function NewShipmentSheet() {
     }
     if (!customer?.id){
       toast.error(s.selectCustomerRequired)
+      return
     }
     
-    
-    
 
+    const {error, newShipment} = await createShipment(docName, customer?.id)
+
+    if (error){
+      toast.error(error.message)
+      return;
+    } 
+    if(!newShipment){
+      toast.error("Cannot create new shipment")
+      return;
+    } 
+
+  
+    router.push(`/shipments/${newShipment.id}`)
+  
   }
 
 
