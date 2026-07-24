@@ -190,7 +190,7 @@ export function DocumentsTab({ shipmentId }: { shipmentId: string }) {
       if (data) inserted.push(data)
     }
 
-    setDocs(prev => [...inserted, ...prev])
+    setDocs(prev => [...inserted, ...(prev ?? [])])
     setIsUploading(false)
     if (inserted.length > 0) toast.success(`Đã upload ${inserted.length} file.`)
     if (fileInputRef.current) fileInputRef.current.value = ''
