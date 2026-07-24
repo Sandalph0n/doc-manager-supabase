@@ -12,16 +12,16 @@ export default async function CustomersPage({
   // ── Fuzzy search ────────────────────────────────────────────────────────────
   if (q?.trim()) {
     const fromRecord = Math.max(1, parseInt(fromParam ?? '1') || 1)
-    const toRecord   = Math.max(fromRecord, parseInt(toParam ?? String(fromRecord + 19)) || fromRecord + 19)
+    const toRecord = Math.max(fromRecord, parseInt(toParam ?? String(fromRecord + 19)) || fromRecord + 19)
 
     const { data } = await supabase.rpc('search_customers', {
-      q:      q.trim(),
+      q: q.trim(),
       p_from: fromRecord,
-      p_to:   toRecord,
+      p_to: toRecord,
     })
-    const rows      = data ?? []
-    const total     = Number(rows[0]?.total ?? 0)
-    const customers = rows.map(({ total: _, ...rest }:any) => rest) // eslint-disable-line
+    const rows = data ?? []
+    const total = Number(rows[0]?.total ?? 0)
+    const customers = rows.map(({ total: _, ...rest }: any) => rest) // eslint-disable-line
 
     return (
       <CustomerTable
@@ -36,7 +36,7 @@ export default async function CustomersPage({
 
   // ── Normal pagination ────────────────────────────────────────────────────────
   const fromRecord = Math.max(1, parseInt(fromParam ?? '1') || 1)
-  const toRecord   = Math.max(fromRecord, parseInt(toParam ?? String(fromRecord + 19)) || fromRecord + 19)
+  const toRecord = Math.max(fromRecord, parseInt(toParam ?? String(fromRecord + 19)) || fromRecord + 19)
 
   const { data: customers, count } = await supabase
     .from('customer')

@@ -16,13 +16,13 @@ export function ShipmentBreadcrumb({ docNumber, docId }: { docNumber: string, do
         </Link>
         <ChevronRight className='size-3' />
         <span className='text-foreground font-medium font-mono'>{docNumber}</span>
-        
         <span className='text-muted-foreground font-light font-mono'>[{docId}]</span>
-
       </div>
     </div>
   )
 }
+
+
 
 export function ShipmentNotFound({ id }: { id: string }) {
   const { t } = useLang()

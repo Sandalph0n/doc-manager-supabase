@@ -41,5 +41,6 @@ export const shipmentFormSchema = shipmentSchema.pick({
     shipping_marks:      true,
 })
 
-export type Shipment         = z.infer<typeof shipmentSchema>
+export type Shipment           = z.infer<typeof shipmentSchema>
 export type ShipmentFormValues = z.infer<typeof shipmentFormSchema>
+

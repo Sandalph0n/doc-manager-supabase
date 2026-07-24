@@ -44,13 +44,18 @@ export function CustomerDialog({
   const form = useForm<CustomerFormValues>({
     resolver: zodResolver(customerFormSchema),
     defaultValues: {
-      company_name:   customer?.company_name   ?? '',
-      address:        customer?.address        ?? '',
-      contact_person: customer?.contact_person ?? '',
-      phone:          customer?.phone          ?? '',
-      email:          customer?.email          ?? '',
-      position:       customer?.position       ?? '',
-      tax_code:       customer?.tax_code       ?? '',
+      company_name:      customer?.company_name      ?? '',
+      address:           customer?.address           ?? '',
+      contact_person:    customer?.contact_person    ?? '',
+      phone:             customer?.phone             ?? '',
+      email:             customer?.email             ?? '',
+      position:          customer?.position          ?? '',
+      tax_code:          customer?.tax_code          ?? '',
+      bank_account:      customer?.bank_account      ?? '',
+      swift_code:        customer?.swift_code        ?? '',
+      bank_name:         customer?.bank_name         ?? '',
+      bank_address:      customer?.bank_address      ?? '',
+      bank_account_name: customer?.bank_account_name ?? '',
     },
   })
 
@@ -76,13 +81,13 @@ export function CustomerDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='max-w-lg'>
+      <DialogContent className='max-w-lg max-h-[90vh] flex flex-col'>
         <DialogHeader>
           <DialogTitle>{isEdit ? c.editCustomer : c.newCustomerDialog}</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className='flex flex-col gap-4'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col min-h-0 flex-1'>
+          <div className='flex flex-col gap-4 overflow-y-auto flex-1 pr-1'>
             <FormInput control={form.control} name='company_name'   label={l(c.companyName,   'company_name')}   placeholder='Sino Commerce Co., Ltd.' />
             <FormInput control={form.control} name='address'        label={l(c.address,       'address')}        placeholder='No. ..., Street ...' />
             <FormInput control={form.control} name='contact_person' label={l(c.contactPerson, 'contact_person')} placeholder='Zhang Wei' />
@@ -90,9 +95,17 @@ export function CustomerDialog({
             <FormInput control={form.control} name='email'          label={l(c.email,         'email')}          placeholder='contact@example.com' />
             <FormInput control={form.control} name='position'       label={l(c.position,      'position')}       placeholder='Manager' />
             <FormInput control={form.control} name='tax_code'       label={l(c.taxCode,       'tax_code')}       placeholder='...' />
+
+            <div className='h-px bg-border' />
+
+            <FormInput control={form.control} name='bank_account_name' label={l(c.bankAccountName, 'bank_account_name')} placeholder='HONG PHU LOGISTICS CO., LTD' />
+            <FormInput control={form.control} name='bank_account'      label={l(c.bankAccount,     'bank_account')}      placeholder='1234 5678 9012' />
+            <FormInput control={form.control} name='swift_code'        label={l(c.swiftCode,       'swift_code')}        placeholder='BFTVVNVX' />
+            <FormInput control={form.control} name='bank_name'         label={l(c.bankName,        'bank_name')}         placeholder='Vietcombank' />
+            <FormInput control={form.control} name='bank_address'      label={l(c.bankAddress,     'bank_address')}      placeholder='...' />
           </div>
 
-          <DialogFooter className='mt-6'>
+          <DialogFooter className='mt-4 shrink-0'>
             <Button variant='outline' size='sm' type='button' onClick={() => onOpenChange(false)}>
               {c.cancel}
             </Button>

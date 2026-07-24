@@ -96,6 +96,18 @@ export default function CustomerDetail({ customer }: { customer: Customer }) {
           {/* Divider */}
           <div className='h-px bg-border' />
 
+          {/* Bank info */}
+          <div className='flex flex-col gap-5'>
+            <Field label={c.bankAccountName} value={customer.bank_account_name} />
+            <Field label={c.bankAccount}     value={customer.bank_account} />
+            <Field label={c.swiftCode}       value={customer.swift_code} />
+            <Field label={c.bankName}        value={customer.bank_name} />
+            <Field label={c.bankAddress}     value={customer.bank_address} />
+          </div>
+
+          {/* Divider */}
+          <div className='h-px bg-border' />
+
           {/* Meta */}
           <div className='flex flex-col gap-5'>
             <Field label={c.createdAt} value={formatDate(customer.created_at)} />

@@ -11,7 +11,7 @@ import { CustomerDialog, DeleteCustomerDialog } from '@/components/customer-dial
 import { Customer } from '@/schemas/customer'
 import { useLang } from '@/lib/i18n/context'
 import { formatDate } from '@/lib/utils/date'
-import Link from 'next/link'
+
 
 // ─── Range Popover ────────────────────────────────────────────────────────────
 function RangePopover({ from, to, total, query }: { from: number; to: number; total: number; query?: string }) {
@@ -132,7 +132,7 @@ export default function CustomerTable({
   }, [customers, router])
 
   return (
-    <div className='h-full flex flex-col '>
+    <div className='h-full flex flex-col'>
       {/* Toolbar */}
       <div className='flex items-center h-9 px-4 gap-2 border-b bg-background shrink-0'>
         <div className='flex items-center gap-1.5 text-xs text-muted-foreground'>
@@ -156,7 +156,7 @@ export default function CustomerTable({
       </div>
 
 
-      <div className='flex-1 flex overflow-auto flex-col pb-0 p-4'>
+      <div className='flex-1 flex  flex-col pb-0 p-4'>
         <div className='flex items-center justify-between mb-3 min-w-max'>
           <p className='text-[11px] font-medium text-muted-foreground uppercase tracking-wide'>
             {isSearching
@@ -182,7 +182,7 @@ export default function CustomerTable({
         </div>
 
 
-        <div className='flex-1'>
+        <div className='flex-1 overflow-auto'>
           <table className='min-w-max text-sm border-collapse w-full'>
             <thead>
               <tr className='border-b'>

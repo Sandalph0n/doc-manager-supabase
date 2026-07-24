@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  allowedDevOrigins: ['192.168.4.34']
+  allowedDevOrigins: ['192.168.4.34'],
+  transpilePackages: ['@react-pdf/renderer'],
 };
 
 export default nextConfig;

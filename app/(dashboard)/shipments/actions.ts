@@ -3,6 +3,7 @@
 import { Temporal } from '@js-temporal/polyfill'
 import { createClient } from '@/lib/supabase/server'
 import { shipmentFormSchema, type ShipmentFormValues } from '@/schemas/shipment'
+import { type ShipmentItemPayload, type ShipmentItem } from '@/schemas/shipment-item'
 
 export async function getNextDocNumber(): Promise<string> {
   const supabase = await createClient()
@@ -65,6 +66,61 @@ export async function updateShipment(id: string, data: ShipmentFormValues) {
   const { error } = await supabase
     .from('shipment')
     .update(cleaned)
+    .eq('id', id)
+
+  return { error }
+}
+
+// ── Shipment Item CRUD ───────────────────────────────────────────────────────
+
+export async function getShipmentItems(shipmentId: string): Promise<{ data: ShipmentItem[]; error: unknown }> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('shipment_item')
+    .select('*')
+    .eq('shipment_id', shipmentId)
+    .order('item_no', { ascending: true })
+  return { data: data ?? [], error }
+}
+
+export async function addShipmentItem(shipmentId: string, values: ShipmentItemPayload) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: { message: 'Unauthorized' } }
+
+  const { count } = await supabase
+    .from('shipment_item')
+    .select('*', { count: 'exact', head: true })
+    .eq('shipment_id', shipmentId)
+
+  const { error } = await supabase
+    .from('shipment_item')
+    .insert({ ...values, shipment_id: shipmentId, item_no: (count ?? 0) + 1 })
+
+  return { error }
+}
+
+export async function updateShipmentItem(id: string, values: ShipmentItemPayload) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: { message: 'Unauthorized' } }
+
+  const { error } = await supabase
+    .from('shipment_item')
+    .update(values)
+    .eq('id', id)
+
+  return { error }
+}
+
+export async function deleteShipmentItem(id: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: { message: 'Unauthorized' } }
+
+  const { error } = await supabase
+    .from('shipment_item')
+    .delete()
     .eq('id', id)
 
   return { error }

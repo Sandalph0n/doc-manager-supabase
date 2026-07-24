@@ -86,7 +86,7 @@ export function InfoTab({ shipment }: { shipment: Shipment }) {
   const v = form.watch()
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-6 h-full'>
+    <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-6 h-full p-4'>
 
       {/* Header row */}
       <div className='flex items-center justify-end gap-2'>
