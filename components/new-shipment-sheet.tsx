@@ -132,6 +132,7 @@ export default function NewShipmentSheet() {
   const [previewDocNumber, setPreview]              = useState<string | null>(null)
   const [customerDialogOpen, setCustomerDialogOpen] = useState(false)
   const [, startTransition]                         = useTransition()
+  const [loading, setLoading] = useState(false);
 
   const utcDateStr = Temporal.Now.plainDateISO('UTC').toString()
 
@@ -145,14 +146,17 @@ export default function NewShipmentSheet() {
   }, [open])
 
   async function handleCreateShipment(){
+    setLoading(true)
     const docName = mode == "default" ? previewDocNumber : customName
     
     if (!docName){
       toast.error(s.customNameRequired)
+      setLoading(false);
       return;
     }
     if (!customer?.id){
       toast.error(s.selectCustomerRequired)
+      setLoading(false);
       return
     }
     
@@ -161,14 +165,16 @@ export default function NewShipmentSheet() {
 
     if (error){
       toast.error(error.message)
+      setLoading(false);
       return;
     } 
     if(!newShipment){
       toast.error("Cannot create new shipment")
+      setLoading(false);
       return;
     } 
 
-  
+    setLoading(false);
     router.push(`/shipments/${newShipment.id}`)
   
   }
@@ -269,7 +275,8 @@ export default function NewShipmentSheet() {
           <Button variant='outline' size='sm' onClick={() => setOpen(false)}>
             {s.cancel}
           </Button>
-          <Button size='sm' onClick={handleCreateShipment}>
+          {/* Create shipment button */}
+          <Button size='sm' onClick={handleCreateShipment} disabled={loading}>
             {s.create}
           </Button>
         </div>

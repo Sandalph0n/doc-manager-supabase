@@ -20,6 +20,7 @@ export default async function ShipmentsPage({
   const { data: shipments, count } = await supabase
     .from('shipment')
     .select('*, customer(company_name)', { count: 'exact' })
+    .is('deleted_at', null)
     .order('created_at', { ascending: false })
     .range(fromRecord - 1, toRecord - 1)
 

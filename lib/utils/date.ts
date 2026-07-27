@@ -12,3 +12,11 @@ export function formatDate(isoString: string | null | undefined): string {
     .toPlainDate()
     .toLocaleString()
 }
+
+export function formatDateTime(isoString: string | null | undefined): string {
+  if (!isoString) return '—'
+  const zdt = Temporal.Instant.from(isoString).toZonedDateTimeISO(Temporal.Now.timeZoneId())
+  const date = zdt.toPlainDate().toLocaleString()
+  const time = zdt.toPlainTime().toLocaleString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false })
+  return `${date} ${time}`
+}

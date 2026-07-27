@@ -3,7 +3,7 @@
 // ─── Imports ─────────────────────────────────────────────────────────────────
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutGrid, Clock, Search, Users, Building2, Settings, Home } from 'lucide-react'
+import { LayoutGrid, Users, Building2, Settings, Home, Trash2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useLang } from '@/lib/i18n/context'
 
@@ -38,14 +38,14 @@ export function AppSidebar() {
   const TOP_NAV = [
     { href: '/', icon: Home, label: t.nav.home },
     { href: '/shipments', icon: LayoutGrid, label: t.nav.explorer },
-    { href: '/recent', icon: Clock, label: t.nav.recent },
+
     { href: '/customers', icon: Users, label: t.nav.customers },
-    { href: '/search', icon: Search, label: t.nav.search },
   ]
 
   const BOTTOM_NAV = [
     { href: '/seller', icon: Building2, label: t.nav.sellerProfile },
     { href: '/settings', icon: Settings, label: t.nav.settings },
+    { href: '/recycle-bin', icon: Trash2, label: t.nav.recycleBin },
   ]
 
 

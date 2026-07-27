@@ -43,18 +43,23 @@ export function ShipmentSidebar({ shipmentId, docNumber }: { shipmentId: string,
     setIsDeleting(true)
     const supabase = createClient()
 
-    const { data: docs } = await supabase
-      .from('shipment_document')
-      .select('storage_path')
-      .eq('shipment_id', shipmentId)
+    // TODO: recycle bin — xoá file storage + xoá vĩnh viễn sẽ làm sau
+    // const { data: docs } = await supabase
+    //   .from('shipment_document')
+    //   .select('storage_path')
+    //   .eq('shipment_id', shipmentId)
+    // const paths = (docs ?? []).map(d => d.storage_path).filter(Boolean) as string[]
+    // if (paths.length > 0) {
+    //   const { error: storageErr } = await supabase.storage.from(BUCKET).remove(paths)
+    //   if (storageErr) toast.warning(`Storage: ${storageErr.message} — tiếp tục xoá DB.`)
+    // }
+    // await supabase.from('shipment').delete().eq('id', shipmentId)
 
-    const paths = (docs ?? []).map(d => d.storage_path).filter(Boolean) as string[]
-    if (paths.length > 0) {
-      const { error: storageErr } = await supabase.storage.from(BUCKET).remove(paths)
-      if (storageErr) toast.warning(`Storage: ${storageErr.message} — tiếp tục xoá DB.`)
-    }
+    const { error: dbErr } = await supabase
+      .from('shipment')
+      .update({ deleted_at: new Date().toISOString() })
+      .eq('id', shipmentId)
 
-    const { error: dbErr } = await supabase.from('shipment').delete().eq('id', shipmentId)
     setIsDeleting(false)
 
     if (dbErr) { toast.error(dbErr.message); setShowDelete(false); return }

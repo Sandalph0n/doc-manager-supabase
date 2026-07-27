@@ -70,7 +70,7 @@ export function GenerateProvider({ children }: { children: ReactNode }) {
   // Load from localStorage once on mount — prune stale entries on the way in
   useEffect(() => {
     const saved = pruneAndLoad()
-    if (Object.keys(saved).length > 0) setStore(saved)
+    if (Object.keys(saved).length > 0) setStore(saved) // eslint-disable-line
   }, [])
 
   // Persist to localStorage on every change
